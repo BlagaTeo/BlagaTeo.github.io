@@ -1,113 +1,114 @@
 <head>
   <script>
-    // Exemplul 1: Setare și afișare cookie-uri
+    // Setăm câteva cookie-uri de la început
+    document.cookie = "session=test GDPR; SameSite=None; Secure";
+    document.cookie = "favorite_task=collect Data; SameSite=None; Secure";
     document.cookie = "name=Oeschger; SameSite=None; Secure";
     document.cookie = "favorite_food=tripe; SameSite=None; Secure";
+    document.cookie = "test1=Hello; SameSite=None; Secure";
+    document.cookie = "test2=World; SameSite=None; Secure";
+    document.cookie = "reader=1; SameSite=None; Secure"; // pentru testele 4 și 5
 
+    // Exemplul 1: Afișează toate cookie-urile
     function showCookies() {
       const output = document.getElementById("cookies");
       output.textContent = `> ${document.cookie}`;
     }
 
     function clearOutputCookies() {
-      const output = document.getElementById("cookies");
-      output.textContent = "";
+      document.getElementById("cookies").textContent = "";
     }
 
-    // Exemplul 2: Citirea valorii unui anumit cookie
-    document.cookie = "test1=Hello; SameSite=None; Secure";
-    document.cookie = "test2=World; SameSite=None; Secure";
-
-    const cookieValue = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("test2="))
-      ?.split("=")[1];
-
+    // Exemplul 2: Afișează valoarea cookie-ului "test2"
     function showCookieValue() {
-      const output = document.getElementById("cookie-value");
-      output.textContent = `> ${cookieValue}`;
+      const value = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("test2="))
+        ?.split("=")[1];
+
+      document.getElementById("cookie-value").textContent = `> ${value}`;
     }
 
     function clearOutputCookieValue() {
-      const output = document.getElementById("cookie-value");
-      output.textContent = "";
+      document.getElementById("cookie-value").textContent = "";
     }
 
-    // Exemplul 3: Executarea unei acțiuni doar o dată
+    // Exemplul 3: Execută o acțiune o singură dată
     function doOnce() {
-      if (
-        !document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("doSomethingOnlyOnce"))
-      ) {
-        document.cookie =
-          "doSomethingOnlyOnce=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; SameSite=None; Secure";
+      const cookieExists = document.cookie
+        .split("; ")
+        .some((row) => row.startsWith("doSomethingOnlyOnce="));
 
-        const output = document.getElementById("do-once");
+      const output = document.getElementById("do-once");
+
+      if (!cookieExists) {
+        document.cookie = "doSomethingOnlyOnce=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; SameSite=None; Secure";
         output.textContent = "> Execută acțiunea acum!";
+      } else {
+        output.textContent = "> Acțiunea a fost deja executată.";
       }
     }
 
     function clearOutputDoOnce() {
-      const output = document.getElementById("do-once");
-      output.textContent = "";
+      document.getElementById("do-once").textContent = "";
     }
 
-    // Exemplul 4: Verificarea existenței unui cookie
+    // Exemplul 4: Verifică existența cookie-ului "reader"
     function checkACookieExists() {
-      if (
-        document.cookie.split(";").some((item) => item.trim().startsWith("reader="))
-      ) {
-        const output = document.getElementById("a-cookie-existence");
-        output.textContent = '> Cookie-ul "reader" există';
-      }
+      const exists = document.cookie
+        .split("; ")
+        .some((item) => item.trim().startsWith("reader="));
+
+      const output = document.getElementById("a-cookie-existence");
+      output.textContent = exists ? '> Cookie-ul "reader" există' : '> Cookie-ul "reader" NU există';
     }
 
     function clearOutputACookieExists() {
-      const output = document.getElementById("a-cookie-existence");
-      output.textContent = "";
+      document.getElementById("a-cookie-existence").textContent = "";
     }
 
-    // Exemplul 5: Verificarea valorii unui cookie
+    // Exemplul 5: Verifică dacă cookie-ul "reader" are valoarea "1"
     function checkCookieHasASpecificValue() {
-      if (document.cookie.split(";").some((item) => item.includes("reader=1"))) {
-        const output = document.getElementById("a-specific-value-of-the-cookie");
-        output.textContent = '> Cookie-ul "reader" are valoarea "1"';
-      }
+      const match = document.cookie
+        .split("; ")
+        .some((item) => item === "reader=1");
+
+      const output = document.getElementById("a-specific-value-of-the-cookie");
+      output.textContent = match
+        ? '> Cookie-ul "reader" are valoarea "1"'
+        : '> Cookie-ul "reader" NU are valoarea "1"';
     }
 
     function clearASpecificValueOfTheCookie() {
-      const output = document.getElementById("a-specific-value-of-the-cookie");
-      output.textContent = "";
+      document.getElementById("a-specific-value-of-the-cookie").textContent = "";
     }
   </script>
 </head>
 <body>
-  <p>Bine ai venit la lab</p>
-  <h1>Exemple document.cookie</h1>
+  <h1>Exemple document.cookie (MDN)</h1>
 
-  <!-- Exemplul 1: Setare și afișare cookie-uri -->
+  <!-- Exemplul 1 -->
   <button onclick="showCookies()">Afișează cookie-urile</button>
   <button onclick="clearOutputCookies()">Șterge</button>
   <div><code id="cookies"></code></div>
 
-  <!-- Exemplul 2: Citirea valorii unui anumit cookie -->
-  <button onclick="showCookieValue()">Afișează valoarea cookie-ului</button>
+  <!-- Exemplul 2 -->
+  <button onclick="showCookieValue()">Afișează valoarea cookie-ului "test2"</button>
   <button onclick="clearOutputCookieValue()">Șterge</button>
   <div><code id="cookie-value"></code></div>
 
-  <!-- Exemplul 3: Executarea unei acțiuni doar o dată -->
-  <button onclick="doOnce()">Execută acțiunea doar o dată</button>
+  <!-- Exemplul 3 -->
+  <button onclick="doOnce()">Execută acțiunea o singură dată</button>
   <button onclick="clearOutputDoOnce()">Șterge</button>
   <div><code id="do-once"></code></div>
 
-  <!-- Exemplul 4: Verificarea existenței unui cookie -->
-  <button onclick="checkACookieExists()">Verifică existența unui cookie</button>
+  <!-- Exemplul 4 -->
+  <button onclick="checkACookieExists()">Verifică dacă există "reader"</button>
   <button onclick="clearOutputACookieExists()">Șterge</button>
   <div><code id="a-cookie-existence"></code></div>
 
-  <!-- Exemplul 5: Verificarea valorii unui cookie -->
-  <button onclick="checkCookieHasASpecificValue()">Verifică valoarea unui cookie</button>
+  <!-- Exemplul 5 -->
+  <button onclick="checkCookieHasASpecificValue()">Verifică dacă "reader" = 1</button>
   <button onclick="clearASpecificValueOfTheCookie()">Șterge</button>
   <div><code id="a-specific-value-of-the-cookie"></code></div>
 </body>
