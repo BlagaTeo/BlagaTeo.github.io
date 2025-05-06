@@ -1,1 +1,23 @@
-<h1> "Hello World" </h1>
+
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Cookie Demo</title>
+  <script>
+    // Setăm cookie-urile
+    document.cookie = "session=test GDPR";
+    document.cookie = "favorite_task=collect Data";
+
+    // Funcția care afișează cookie-urile
+    function alertCookie() {
+      alert(document.cookie);
+    }
+  </script>
+</head>
+<body>
+  <h1>Hello world</h1>
+  <p>Bine ai venit la lab</p>
+  <button onclick="alertCookie()">Show cookies</button>
+</body>
+</html>
